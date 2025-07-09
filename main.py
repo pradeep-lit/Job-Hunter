@@ -9,6 +9,7 @@ from datetime import UTC
 from remotive_search import call_remotive
 from naukri_search import call_naukri
 from internshala_search import call_intern
+#Loading environment variable from .env file
 load_dotenv()
 TOKEN=os.getenv('JOB_HUNTER_TOKEN')
 #States for naukri command
@@ -165,4 +166,4 @@ app.add_handler(ConversationHandler([CommandHandler('internshala',intern_command
 app.add_handler(ConversationHandler(entry_points=[CommandHandler('naukri',naukri_command)], states={NAUKRI_KEY: [MessageHandler(filters.TEXT & ~filters.COMMAND, naukri_keyword)], NAUKRI_LOC: [MessageHandler(filters.TEXT & ~filters.COMMAND,naurkri_location)]}, fallbacks=[CommandHandler('cancel',cancel_command)]))
 #polling
 print('Polling...')
-app.run_polling(poll_interval=5)
+app.run_polling(poll_interval=2)
