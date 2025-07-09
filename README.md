@@ -34,9 +34,9 @@ python main.py
 ## 💡 Usage
 
 Command:
-> /start — Start the bot
-> /remotive — Search jobs on Remotive
-> /internshala — Search jobs on Internshala
+> /start — Start the bot,
+> /remotive — Search jobs on Remotive,
+> /internshala — Search jobs on Internshala,
 > /naukri — Search jobs on Naukri
 ---
 
