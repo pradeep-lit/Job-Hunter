@@ -3,6 +3,9 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes,Conver
 # from telegram.constants import ParseMode
 import os
 from dotenv import load_dotenv
+import csv
+from datetime import datetime
+from datetime import UTC
 from remotive_search import call_remotive
 from naukri_search import call_naukri
 from internshala_search import call_intern
@@ -19,6 +22,17 @@ nav_inline_keyboard=InlineKeyboardMarkup([[InlineKeyboardButton('⬅️',callbac
 #Reply Keyboard Button
 cancel_button=ReplyKeyboardMarkup([['Cancel']], resize_keyboard=True, one_time_keyboard=True)
 #Pagination for Better UI
+def log_user(user,command):
+    user_id=user.id or ''
+    user_first=user.first_name or ''
+    user_last=user.last_name or ''
+    user_lang=user.language_code or ''
+    username=user.username or ''
+    is_bot=str(user.is_bot) or 'None'
+    time=datetime.now(UTC).isoformat()
+    with open('user_logs.csv','a',newline='',encoding='utf-8') as f:
+        writer=csv.writer(f)
+        writer.writerow([user_id,username,user_first,user_last,is_bot,user_lang,time,command])
 def paginate_jobs(full_text, jobs_per_page=4):
     jobs = full_text.strip().split('\n\n')  # split each job block
     pages = []
@@ -29,14 +43,15 @@ def paginate_jobs(full_text, jobs_per_page=4):
 
 # start command
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    log_user(update.effective_user,'start')
     await update.message.reply_text(f"Hi {update.effective_user.first_name}! I am Job Hunter bot. You can search for jobs across different platform by using these command : \n/internshala - Search internships on Internshala.\n/naukri - Search jobs on Naukri.\n/remotive - Search jobs on Remotive",reply_to_message_id=update.message.id)
 # remotive command
 async def remotive_command(update:Update, context: ContextTypes.DEFAULT_TYPE):
+    log_user(update.effective_user,'remotive')
     await update.message.reply_text('Enter the keyword / designation e.g. Software Engineer',reply_markup=cancel_button)
     return REMOTIVE_KEY
 
 async def remotive_keyword(update:Update, context:ContextTypes.DEFAULT_TYPE):
-    
     # print(user_message)
     if update.message.text.lower()=='cancel':
         return await cancel_command(update, context)
@@ -79,6 +94,7 @@ async def jobs_page_navigation(update: Update, context: ContextTypes.DEFAULT_TYP
 
 #Internshala command
 async def intern_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    log_user(update.effective_user,'internshala')
     await update.message.reply_text("Enter the keyword / designation e.g. Software Engineer",reply_markup=cancel_button)
     return INTERN_KEY
 
@@ -108,6 +124,7 @@ async def intern_location(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Naukri command
 
 async def naukri_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    log_user(update.effective_user,'naukri')
     await update.message.reply_text('Enter the keyword / designation e.g. Software Engineer',reply_markup=cancel_button)
     return NAUKRI_KEY
 
