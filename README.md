@@ -5,6 +5,10 @@
 
 **Job Hunter** is a telegram bot searches multiple job boards  in real-time, scrapes relevant job postings, and compiles them into a clean, organized list. Why? Because its seamless and requires no login and that too without switching apps. Here is the Source code of the bot. It helps users discover job postings directly on Telegram. It fetches listings from multiple websites, applies filters, and presents clean results in chat.
 
+### Try it out!:
+
+[![Telegram](https://img.shields.io/badge/Live%20Bot-JobHunter-blue?logo=telegram)](https://t.me/jobxhunter_bot)
+
 ---
 
 ## ⚙️ Features
